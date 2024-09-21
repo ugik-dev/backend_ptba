@@ -49,16 +49,49 @@ export const createRole = async (req: Request, res: Response) => {
         const errorArray = errors.array();
         return res.status(400).json({ message: errorArray[0].msg });
     }
-    const { title, name } = req.body; // role_id default 2
+    // const { title, name } = req.body; // role_id default 2
+    const { title, name, permissions }: { title: string; name: string; permissions: Permissions } = req.body;
     try {
         const pool = await poolPromise;
-        await pool.request()
+        const result = await pool.request()
             .input('title', title)
             .input('name', name)
             .query(`
                 INSERT INTO roles (name, title)
-                VALUES (@name, @title)
+                VALUES (@name, @title);
+                 SELECT SCOPE_IDENTITY() AS id;
             `);
+        const insertedId = result.recordset[0].id; // Dapatkan ID yang baru saja dimasukkan
+
+        for (const [permissionId, permissionData] of Object.entries(permissions)) {
+            if (permissionId != 'null' && permissionData && typeof permissionData === 'object') {
+                const {
+                    show = 'N',
+                    can_create = 'N',
+                    can_update = 'N',
+                    can_delete = 'N'
+                } = permissionData;
+                console.log('created', permissionId)
+                // Gunakan nilai default
+                await pool.request()
+                    .input('roleId', insertedId)
+                    .input('permissionId', permissionId)
+                    .input('show', show || 'N') // Default ke 'N' jika tidak ada
+                    .input('create', can_create || 'N')
+                    .input('update', can_update || 'N')
+                    .input('delete', can_delete || 'N')
+                    .query(`
+                            MERGE INTO role_permission AS target
+                            USING (SELECT @roleId AS roleId, @permissionId AS permissionId) AS source
+                            ON target.role_id = source.roleId AND target.permission_id = source.permissionId
+                            WHEN MATCHED THEN
+                                UPDATE SET show = @show, can_create = @create, can_update = @update, can_delete = @delete
+                            WHEN NOT MATCHED THEN
+                                INSERT (role_id, permission_id, show, can_create, can_update, can_delete)
+                                VALUES (@roleId, @permissionId, @show, @create, @update, @delete);
+                        `);
+            }
+        }
         res.status(201).json({ message: 'Role created successfully' });
     } catch (error) {
         console.error(error);
