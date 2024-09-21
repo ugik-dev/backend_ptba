@@ -6,10 +6,13 @@ const migrate = async () => {
         await import('./database/migrations/0001createPermissionTable').then(module => module.default());
         await import('./database/migrations/0002createRolePermissionTable').then(module => module.default());
         await import('./database/migrations/0003createUsersTable').then(module => module.default());
+        await import('./database/migrations/0005createRefTaxTable').then(module => module.default());
+        await import('./database/migrations/0006createRefSubTaxTable').then(module => module.default());
 
         console.log('-- Seeder execute');
         await import('./database/seeders/roleSeeder').then(module => module.default());
         await import('./database/seeders/userSeeder').then(module => module.default());
+        await import('./database/seeders/refTaxSeeder').then(module => module.default());
         return;
     } catch (err) {
         console.error('Error during migrations:', err);

@@ -22,3 +22,25 @@ export const refPermission = async (req: Request, res: Response) => {
         res.status(500).json({ message: 'Error fetching permissions' });
     }
 };
+
+export const refTax = async (req: Request, res: Response) => {
+    try {
+        const pool = await poolPromise;
+        const result = await pool.request().query('SELECT * FROM ref_taxs');
+        res.json(result.recordset);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error fetching roles' });
+    }
+};
+
+export const refSubTax = async (req: Request, res: Response) => {
+    try {
+        const pool = await poolPromise;
+        const result = await pool.request().query('SELECT * FROM ref_sub_taxs');
+        res.json(result.recordset);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error fetching roles' });
+    }
+};
