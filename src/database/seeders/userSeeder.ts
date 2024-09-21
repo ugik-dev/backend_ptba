@@ -8,9 +8,19 @@ export default async function seedUsers() {
 
     const users = [
         { username: 'admin', name: 'Asep Maryana', password: hashedPassword, email: 'admin@example.com', role_id: 1 },
-        { username: 'user1', name: 'Sugi Pramana', password: hashedPassword, email: 'user1@example.com', role_id: 2 },
-        { username: 'user2', name: 'Other Person', password: hashedPassword, email: 'user2@example.com', role_id: 2 },
+        { username: 'ugikdev', name: 'Sugi Pramana', password: hashedPassword, email: 'user1@example.com', role_id: 2 },
     ];
+
+    for (let i = 2; i <= 32; i++) {
+        users.push({
+            username: `user${i}`,
+            name: `User ${i}`,
+            password: hashedPassword,
+            email: `user${i}@example.com`,
+            role_id: 2
+        });
+    }
+
     await pool.request()
         .query(`delete from users where 1=1`);
 

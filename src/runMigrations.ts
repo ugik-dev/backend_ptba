@@ -3,6 +3,8 @@ const migrate = async () => {
         await import('./database/migrations/0000clearTableMigration').then(module => module.default());
         console.log('-- Migrate execute');
         await import('./database/migrations/0001createRolesTable').then(module => module.default());
+        await import('./database/migrations/0001createPermissionTable').then(module => module.default());
+        await import('./database/migrations/0002createRolePermissionTable').then(module => module.default());
         await import('./database/migrations/0003createUsersTable').then(module => module.default());
 
         console.log('-- Seeder execute');

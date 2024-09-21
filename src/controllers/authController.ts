@@ -19,8 +19,10 @@ export const login = async (req: Request, res: Response) => {
                  WHERE username = @username`);
 
         const user: User = result.recordset[0];
-        if (!user || !(await bcrypt.compare(password, user.password))) {
-            return res.status(401).json({ message: 'Invalid username or password' });
+        if (!user) {
+            return res.status(401).json({ message: 'Username tidak ditemukan' });
+        } else if (!(await bcrypt.compare(password, user.password))) {
+            return res.status(401).json({ message: 'Password salah!' });
         }
 
         const token = jwt.sign({ id: user.id }, SECRET_KEY, { expiresIn: '1h' });

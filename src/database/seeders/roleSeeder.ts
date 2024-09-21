@@ -19,5 +19,19 @@ export default async function seedRoles() {
             `);
     }
 
+    const permissions = [
+        { slug: 'manage-user', name: "Kelolah User" },
+        { slug: 'manage-role', name: "Kelolah Role" },
+    ];
+    for (const permission of permissions) {
+        await pool.request()
+            .input('name', permission.name)
+            .input('slug', permission.slug)
+            .query(`
+                INSERT INTO permission (name, slug)
+                VALUES (@name , @slug);
+            `);
+    }
+
     console.log('Roles seeded');
 };
