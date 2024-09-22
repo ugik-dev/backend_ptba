@@ -25,7 +25,9 @@ export const login = async (req: Request, res: Response) => {
             return res.status(401).json({ message: 'Password salah!' });
         }
 
-        const token = jwt.sign({ id: user.id }, SECRET_KEY, { expiresIn: '1h' });
+        // const token = jwt.sign({ id: user.id }, SECRET_KEY, { expiresIn: '1h' });
+        const token = jwt.sign({ id: user.id, role_id: user.role_id }, SECRET_KEY, { expiresIn: '3h' });
+
         res.json({ token, user });
     } catch (error) {
         console.error(error);

@@ -4,6 +4,7 @@ export default async function seedRoles() {
     const users = [
         { name: 'admin', title: "AM PPN" },
         { name: 'spc-keu', title: "Spesilis Keuangan" },
+        { name: 'empty-permission', title: "Empty Permission" },
     ];
 
     await pool.request()
@@ -28,13 +29,33 @@ export default async function seedRoles() {
     ];
 
     for (const permission of permissions) {
-        await pool.request()
+        let result = await pool.request()
             .input('name', permission.name)
             .input('slug', permission.slug)
             .query(`
                 INSERT INTO permission (name, slug)
                 VALUES (@name , @slug);
+                SELECT SCOPE_IDENTITY() AS id;
             `);
+        let permissionId = result.recordset[0].id; // Dapatkan ID yang baru saja dimasukkan
+        await pool.request()
+            .input('permission_id', permissionId)
+            .input('role_id', 1)
+            .query(`
+            INSERT INTO role_permission 
+            (permission_id, role_id, show, can_create, can_update, can_delete)
+            VALUES (@permission_id , @role_id, 'Y','Y','Y','Y' );
+        `);
+        if (permission.slug == "deposit") {
+            await pool.request()
+                .input('permission_id', permissionId)
+                .input('role_id', 2)
+                .query(`
+                INSERT INTO role_permission 
+                (permission_id, role_id, show, can_create, can_update, can_delete)
+                VALUES (@permission_id , @role_id, 'Y','Y','Y','Y' );
+                `);
+        }
     }
 
     console.log('Roles seeded');
