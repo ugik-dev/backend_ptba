@@ -10,6 +10,7 @@ const migrate = async () => {
         await import('./database/migrations/0006createRefSubTaxTable').then(module => module.default());
         await import('./database/migrations/0008createRefRegionTable').then(module => module.default());
         await import('./database/migrations/0009createRegionsTable').then(module => module.default());
+        await import('./database/migrations/0011createDepositTable').then(module => module.default());
 
         console.log('-- Seeder execute');
         await import('./database/seeders/roleSeeder').then(module => module.default());
