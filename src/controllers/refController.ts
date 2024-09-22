@@ -44,3 +44,25 @@ export const refSubTax = async (req: Request, res: Response) => {
         res.status(500).json({ message: 'Error fetching roles' });
     }
 };
+
+export const refRegion = async (req: Request, res: Response) => {
+    try {
+        const pool = await poolPromise;
+        const result = await pool.request().query('SELECT * FROM ref_regions');
+        res.json(result.recordset);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error fetching regions' });
+    }
+};
+
+export const refProvince = async (req: Request, res: Response) => {
+    try {
+        const pool = await poolPromise;
+        const result = await pool.request().query('SELECT * FROM regions where ref_region_id = 2');
+        res.json(result.recordset);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error fetching province' });
+    }
+};

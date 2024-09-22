@@ -23,6 +23,7 @@ export default async function seedRoles() {
     const permissions = [
         { slug: 'manage-user', name: "Kelolah User" },
         { slug: 'manage-role', name: "Kelolah Role" },
+        { slug: 'manage-region', name: "Kelolah Wilayah" },
         { slug: 'manage-tax', name: "Kelolah Jenis Pajak" },
         { slug: 'manage-sub-tax', name: "Kelolah Jenis Sub Pajak" },
         { slug: 'deposit', name: "Deposit" },

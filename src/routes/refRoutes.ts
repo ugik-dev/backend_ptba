@@ -7,5 +7,7 @@ router.get('/roles', authMiddleware, controller.refRoles);
 router.get('/tax', authMiddleware, controller.refTax);
 router.get('/sub-tax', authMiddleware, controller.refSubTax);
 router.get('/permission', authMiddleware, controller.refPermission);
+router.get('/region', authMiddleware, controller.refRegion);
+router.get('/region/province', authMiddleware, controller.refProvince);
 
 export default router;

@@ -2,6 +2,7 @@ import app from './app';
 import dotenv from 'dotenv';
 import authRoutes from './routes/authRoutes';
 import userRoutes from './routes/userRoutes';
+import regionRoutes from './routes/regionRoutes';
 import refRoutes from './routes/refRoutes';
 import roleRoutes from './routes/roleRoutes';
 import refTaxRoutes from './routes/refTaxRoutes';
@@ -17,6 +18,7 @@ app.use('/auth', authRoutes);
 app.use('/user', userRoutes);
 app.use('/ref', refRoutes);
 app.use('/role', roleRoutes);
+app.use('/region', regionRoutes);
 app.use('/manage-ref-tax', refTaxRoutes);
 app.use('/manage-ref-sub-tax', refSubTaxRoutes);
 app.listen(PORT, () => {

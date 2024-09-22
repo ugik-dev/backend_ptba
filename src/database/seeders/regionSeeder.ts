@@ -22,21 +22,21 @@ export default async function seedRoles() {
         { name: "Pusat", ref: 1 },
         { name: "Sumatera Selatan", ref: 2 },
         { name: "Lampung", ref: 2 },
-        { name: "Palembang", ref: 3 },
-        { name: "Muara Enim", ref: 3 },
-        { name: "Sekayu", ref: 3 },
-        { name: "Pringsewu", ref: 3 },
+        { name: "Palembang", ref: 3, parent: 2 },
+        { name: "Muara Enim", ref: 3, parent: 2 },
+        { name: "Sekayu", ref: 3, parent: 2 },
+        { name: "Pringsewu", ref: 3, parent: 3 },
     ];
 
     for (const permission of provinces) {
         await pool.request()
             .input('name', permission.name)
             .input('ref_region_id', permission.ref)
+            .input('parent', permission.parent)
             .query(`
-                INSERT INTO regions (name, ref_region_id)
-                VALUES (@name , @ref_region_id);
+                INSERT INTO regions (name, ref_region_id, parent_id)
+                VALUES (@name , @ref_region_id, @parent);
             `);
     }
-
     console.log('Regions seeded');
 };
