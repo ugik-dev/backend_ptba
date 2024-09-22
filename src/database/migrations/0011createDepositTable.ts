@@ -9,6 +9,8 @@ export default async function createDepositTable() {
             ref_sub_tax_id INT NOT NULL,
             region_id INT NOT NULL,
             amount BIGINT,
+            alocation_percentage INT,
+            alocation_amount BIGINT,
             createdAt DATETIME DEFAULT GETDATE(),
             updatedAt DATETIME DEFAULT GETDATE(),
             FOREIGN KEY (user_id) REFERENCES users(id),

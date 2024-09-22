@@ -17,6 +17,7 @@ const migrate = async () => {
         await import('./database/seeders/userSeeder').then(module => module.default());
         await import('./database/seeders/refTaxSeeder').then(module => module.default());
         await import('./database/seeders/regionSeeder').then(module => module.default());
+        await import('./database/seeders/depositSeeder').then(module => module.default());
         return;
     } catch (err) {
         console.error('Error during migrations:', err);
