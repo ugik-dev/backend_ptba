@@ -19,7 +19,7 @@ export default async function seedRoles() {
             `);
     }
     const provinces = [
-        { name: "Pusat", ref: 1 },
+        { name: "Direktorat Jendral Pajak", ref: 1 },
         { name: "Sumatera Selatan", ref: 2 },
         { name: "Lampung", ref: 2 },
         { name: "Palembang", ref: 3, parent: 2 },

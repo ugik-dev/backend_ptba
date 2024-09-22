@@ -7,6 +7,7 @@ import refRoutes from './routes/refRoutes';
 import roleRoutes from './routes/roleRoutes';
 import refTaxRoutes from './routes/refTaxRoutes';
 import refSubTaxRoutes from './routes/refSubTaxRoutes';
+import depositRoutes from './routes/depositRoutes';
 
 dotenv.config();
 const cors = require('cors');
@@ -21,6 +22,7 @@ app.use('/role', roleRoutes);
 app.use('/region', regionRoutes);
 app.use('/manage-ref-tax', refTaxRoutes);
 app.use('/manage-ref-sub-tax', refSubTaxRoutes);
+app.use('/deposit', depositRoutes);
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });

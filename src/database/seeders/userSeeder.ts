@@ -8,16 +8,16 @@ export default async function seedUsers() {
 
     const users = [
         { username: 'admin', name: 'Asep Maryana', password: hashedPassword, email: 'admin@example.com', role_id: 1 },
-        { username: 'ugikdev', name: 'Sugi Pramana', password: hashedPassword, email: 'user1@example.com', role_id: 2 },
+        { username: 'ugikdev', name: 'Sugi Pramana', password: hashedPassword, email: 'ugik.dev@gmail.com', role_id: 2 },
     ];
 
-    for (let i = 2; i <= 32; i++) {
+    for (let i = 1; i <= 32; i++) {
         users.push({
             username: `user${i}`,
             name: `User ${i}`,
             password: hashedPassword,
             email: `user${i}@example.com`,
-            role_id: 2
+            role_id: 3
         });
     }
 

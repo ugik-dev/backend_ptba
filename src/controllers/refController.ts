@@ -37,7 +37,10 @@ export const refTax = async (req: Request, res: Response) => {
 export const refSubTax = async (req: Request, res: Response) => {
     try {
         const pool = await poolPromise;
-        const result = await pool.request().query('SELECT * FROM ref_sub_taxs');
+        const parent = parseInt(req.params.parent);
+        const result = await pool.request()
+            .input("parent", parent)
+            .query('SELECT * FROM ref_sub_taxs where ref_tax_id = @parent');
         res.json(result.recordset);
     } catch (error) {
         console.error(error);
@@ -49,6 +52,20 @@ export const refRegion = async (req: Request, res: Response) => {
     try {
         const pool = await poolPromise;
         const result = await pool.request().query('SELECT * FROM ref_regions');
+        res.json(result.recordset);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error fetching regions' });
+    }
+};
+
+export const refSubRegion = async (req: Request, res: Response) => {
+    const parent = parseInt(req.params.parent);
+    try {
+        const pool = await poolPromise;
+        const result = await pool.request()
+            .input("parent", parent)
+            .query('SELECT * FROM regions where ref_region_id = @parent');
         res.json(result.recordset);
     } catch (error) {
         console.error(error);
