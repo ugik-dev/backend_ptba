@@ -10,6 +10,8 @@ export default async function clearTableMigration() {
         IF OBJECT_ID('dbo.permission', 'U') IS NOT NULL DROP TABLE dbo.permission;
         IF OBJECT_ID('dbo.ref_sub_taxs', 'U') IS NOT NULL DROP TABLE dbo.ref_sub_taxs;
         IF OBJECT_ID('dbo.ref_taxs', 'U') IS NOT NULL DROP TABLE dbo.ref_taxs;
+        IF OBJECT_ID('dbo.regions', 'U') IS NOT NULL DROP TABLE dbo.regions;
+        IF OBJECT_ID('dbo.ref_regions', 'U') IS NOT NULL DROP TABLE dbo.ref_regions;
     `);
 
     console.log('Cleared tables migration completed');
