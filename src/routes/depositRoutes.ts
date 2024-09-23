@@ -4,6 +4,7 @@ import { authMiddleware } from '../middlewares/authMiddleware';
 import { permissionMiddleware } from '../middlewares/permissionMiddleware';
 const router = express.Router();
 const pName = 'deposit';
+// router.get('/', controller.get);
 router.get('/', authMiddleware, permissionMiddleware(pName, 'show'), controller.get);
 router.post('/', authMiddleware, permissionMiddleware(pName, 'create'), controller.validateCreate, controller.create);
 router.put('/:id', authMiddleware, permissionMiddleware(pName, 'update'), controller.validateCreate, controller.update);

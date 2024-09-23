@@ -13,7 +13,8 @@ dotenv.config();
 const cors = require('cors');
 const PORT = process.env.PORT || 3000;
 app.use(cors({
-    origin: 'http://localhost:4200'  // Atau '*' jika ingin mengizinkan semua origin
+    origin: '*'
+    // origin: 'http://localhost:4200'  
 }));
 app.use('/auth', authRoutes);
 app.use('/user', userRoutes);

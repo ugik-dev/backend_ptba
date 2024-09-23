@@ -61,6 +61,7 @@ export const get = async (req: Request, res: Response) => {
 };
 export const validateCreate = [
     body('amount').notEmpty().withMessage('Amount is required'),
+    body('alocation_percentage').notEmpty().withMessage('Amount is required').isNumeric().withMessage("Persentase is numeric"),
     body('ref_sub_tax_id').notEmpty().withMessage('Sub Jenis Pajak is required'),
     body('region_id').notEmpty().withMessage('Wilayah Pajak is required'),
 ];
@@ -71,21 +72,24 @@ export const create = async (req: Request, res: Response) => {
         const errorArray = errors.array();
         return res.status(400).json({ message: errorArray[0].msg });
     }
-    const { ref_sub_tax_id, region_id } = req.body;
+    const { ref_sub_tax_id, region_id, alocation_percentage } = req.body;
     let { amount } = req.body;
     const userId = req.params['jwt_user_id'];
     try {
         const pool = await poolPromise;
         // const userId = 1;
         amount = amount.replace(/[^0-9]/g, '');
+        const alocation_amount = (alocation_percentage / 100) * amount;
         await pool.request()
             .input('ref_sub_tax_id', ref_sub_tax_id)
             .input('region_id', region_id)
             .input('amount', amount)
+            .input('alocation_percentage', alocation_percentage)
+            .input('alocation_amount', alocation_amount)
             .input('user_id', userId)
             .query(`
-                INSERT INTO deposits (ref_sub_tax_id, region_id, amount, user_id)
-                VALUES (@ref_sub_tax_id, @region_id, @amount, @user_id)
+                INSERT INTO deposits (ref_sub_tax_id, region_id, amount,alocation_percentage, alocation_amount, user_id)
+                VALUES (@ref_sub_tax_id, @region_id, @amount, @alocation_percentage, @alocation_amount,@user_id)
             `);
         res.status(201).json({ message: 'Deposit created successfully' });
     } catch (error) {
@@ -102,7 +106,7 @@ export const update = async (req: Request, res: Response) => {
         return res.status(400).json({ message: errorArray[0].msg });
     }
     const dataId = parseInt(req.params.id);
-    const { ref_sub_tax_id, region_id } = req.body;
+    const { ref_sub_tax_id, region_id, alocation_percentage } = req.body;
     const userId = req.params['jwt_user_id'];
     let { amount } = req.body;
     try {
@@ -111,12 +115,15 @@ export const update = async (req: Request, res: Response) => {
         //     parent_id = null;
         // }
         amount = amount.replace(/[^0-9]/g, '');
+        const alocation_amount = (alocation_percentage / 100) * amount;
         const query = `
             UPDATE deposits 
             SET 
                 ref_sub_tax_id = @ref_sub_tax_id,
                 region_id = @region_id, 
                 amount = @amount, 
+                alocation_percentage = @alocation_percentage, 
+                alocation_amount = @alocation_amount, 
                 user_id = @user_id
             WHERE id = @id
         `;
@@ -125,6 +132,8 @@ export const update = async (req: Request, res: Response) => {
             .input('ref_sub_tax_id', ref_sub_tax_id)
             .input('region_id', region_id)
             .input('amount', amount)
+            .input('alocation_percentage', alocation_percentage)
+            .input('alocation_amount', alocation_amount)
             .input('user_id', userId)
             .input('id', dataId);
 
