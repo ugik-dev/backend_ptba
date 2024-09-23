@@ -8,6 +8,7 @@ import roleRoutes from './routes/roleRoutes';
 import refTaxRoutes from './routes/refTaxRoutes';
 import refSubTaxRoutes from './routes/refSubTaxRoutes';
 import depositRoutes from './routes/depositRoutes';
+import summaryRoutes from './routes/summaryRoutes';
 
 dotenv.config();
 const cors = require('cors');
@@ -17,6 +18,7 @@ app.use(cors({
     // origin: 'http://localhost:4200'  
 }));
 app.use('/auth', authRoutes);
+app.use('/summary', summaryRoutes);
 app.use('/user', userRoutes);
 app.use('/ref', refRoutes);
 app.use('/role', roleRoutes);

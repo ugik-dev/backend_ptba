@@ -1,0 +1,10 @@
+import express, { Request, Response, NextFunction } from 'express';
+import * as controller from '../controllers/summaryController';
+import { authMiddleware } from '../middlewares/authMiddleware';
+import { permissionMiddleware } from '../middlewares/permissionMiddleware';
+const router = express.Router();
+const pName = 'deposit';
+// router.get('/', controller.get);
+router.get('/', authMiddleware, controller.get);
+router.get('/monthly', authMiddleware, controller.get);
+export default router;
